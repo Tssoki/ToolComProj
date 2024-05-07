@@ -94,6 +94,7 @@ namespace ToolComProjet
             {
                 var _getValueRequest = _sheetService.Spreadsheets.Values.BatchGet(_googleSpreadsheetIdentifier);
                 _getValueRequest.Ranges = _ranges;
+                _getValueRequest.MajorDimension = SpreadsheetsResource.ValuesResource.BatchGetRequest.MajorDimensionEnum.ROWS;
                 return _getValueRequest.Execute();
             }
         }
@@ -111,5 +112,57 @@ namespace ToolComProjet
                 _getValueRequest.Execute();
             }
         }
+
+        public void UpdateSingleCell(string _googleSpreadsheetIdentifier, string _range, string _cellText)
+        {
+            if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
+                throw new ArgumentNullException(nameof(_googleSpreadsheetIdentifier));
+            //if (_ranges == null || _ranges.Length == 0)
+            //    throw new ArgumentNullException(nameof(_ranges));
+
+            using (var _sheetService = new SheetsService(new BaseClientService.Initializer() { HttpClientInitializer = credential }))
+            {
+                ValueRange _valueRange = new ValueRange();
+                //_valueRange.MajorDimension = "COLUMNS";
+
+                var _obList = new List<object>() { _cellText };
+                _valueRange.Values = new List<IList<object>> { _obList };
+
+                SpreadsheetsResource.ValuesResource.UpdateRequest update = _sheetService.Spreadsheets.Values.Update(_valueRange, _googleSpreadsheetIdentifier, _range);
+                update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+                UpdateValuesResponse result2 = update.Execute();
+            }
+        }
+
+        /// <summary>
+        /// Update multiple cells values (NOT WORKING)
+        /// </summary>
+        /// <param name="_googleSpreadsheetIdentifier"></param>
+        /// <param name="_range"></param>
+        /// <param name="_cellText"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        //public void UpdateMultipleCells(string _googleSpreadsheetIdentifier, string _range, string _cellText)
+        //{
+        //    if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
+        //        throw new ArgumentNullException(nameof(_googleSpreadsheetIdentifier));
+        //    //if (_ranges == null || _ranges.Length == 0)
+        //    //    throw new ArgumentNullException(nameof(_ranges));
+
+        //    using (SheetsService _sheetService = new SheetsService(new BaseClientService.Initializer() { HttpClientInitializer = credential }))
+        //    {
+        //        BatchUpdateValuesRequest _updateRequest = new BatchUpdateValuesRequest();
+        //        //_updateRequest.Data = 
+
+        //        ValueRange _valueRange = new ValueRange();
+        //        //_valueRange.MajorDimension = "COLUMNS";
+
+        //        var _obList = new List<object>() { _cellText, "test" };
+        //        _valueRange.Values = new List<IList<object>> { _obList };
+
+        //        SpreadsheetsResource.ValuesResource.BatchUpdateRequest update = _sheetService.Spreadsheets.Values.BatchUpdate(_updateRequest, _googleSpreadsheetIdentifier);
+        //        //update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+        //        //UpdateValuesResponse result2 = update.Execute();
+        //    }
+        //}
     }
 }

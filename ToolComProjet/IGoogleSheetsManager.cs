@@ -37,5 +37,8 @@ namespace ToolComProjet
         /// <param name="_googleSpreadsheetIdentifier"></param>
         /// <param name="_ranges"></param>
         void ClearMultipleValues(string _googleSpreadsheetIdentifier, string[] _ranges);
+
+        void UpdateSingleCell(string _googleSpreadsheetIdentifier, string _range, string _cellText);
+        //void UpdateMultipleCells(string _googleSpreadsheetIdentifier, string _range, string _cellText);
     }
 }

@@ -1,6 +1,11 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
+using Google.Apis.Sheets.v4.Data;
 using System;
 using System.Linq;
+using System.Net;
+using System.Windows.Controls;
 
 namespace ToolComProjet
 {
@@ -10,6 +15,7 @@ namespace ToolComProjet
         {
             string _googleClientID = "783201556069-qvrac98c53djpeede70t42pvopjqvs3f.apps.googleusercontent.com";
             string _googleClientSecret = "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";
+
             string[] _scopes = new[] { Google.Apis.Sheets.v4.SheetsService.Scope.Spreadsheets };
 
             UserCredential _credential = GoogleAuthentification.Login(_googleClientID, _googleClientSecret, _scopes);
@@ -18,26 +24,36 @@ namespace ToolComProjet
             var _mySpreadSheetID = "199FDAfzCOxDYywfilvP5fopvGnp7_YrUv4VAlGVCXqA";
             var _spreadSheet = manager.GetSpreadSheet(_mySpreadSheetID);
 
-            //var _finalAmountOfMoney = manager.GetSingleValue(_spreadSheet.SpreadsheetId, "B2");        // SINGLE VALUE
+            //manager.UpdateCells(_mySpreadSheetID, "D3", "Il me casse les couilles avec son ultrakill l'autre à côté");
+
+
+            ////////////// READ SINGLE VALUE //////////////
+
+            //var _finalAmountOfMoney = manager.GetSingleValue(_spreadSheet.SpreadsheetId, "B2");
             //Console.WriteLine("Final amount of money: " + _finalAmountOfMoney.Values.First().First());
 
-            string _nameRange = "A2:A7";
-            string _nbrRange = "B2:B7";
+            ////////////// READ MULTIPLE VALUE //////////////
 
-            string[] _valueRange = new[] { _nameRange, _nbrRange };
+            string _1range = "B3:F3";
+
+            string[] _valueRange = new[] { _1range };
             var _multipleResponse = manager.GetMultipleValues(_mySpreadSheetID, _valueRange);
 
-            var _nameResponse = _multipleResponse.ValueRanges.ElementAt(0);
-            var _nbrResponse = _multipleResponse.ValueRanges.ElementAt(1);
+            var _response = _multipleResponse.ValueRanges.ElementAt(0);
 
             Console.WriteLine("\nPrinting data:");
-            for (int i = 0; i < _nameResponse.Values.Count; i++)
+            for (int i = 0; i < _response.Values.Count; i++)
             {
-                var _name = _nameResponse.Values[i].First();
-                var _nbr = _nbrResponse.Values[i].First();
+                var _name = _response.Values[i];
 
-                Console.WriteLine("Name: " + _name + "\tNBR: " + _nbr);
+                for (int y = 0; y < _name.Count; y++)
+                {
+                    Console.WriteLine(_name[y]);
+                }
+
+                
             }
+
             Console.ReadLine();
         }
     }

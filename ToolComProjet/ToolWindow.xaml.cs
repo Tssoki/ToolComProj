@@ -26,7 +26,7 @@ namespace ToolComProjet
 
         private void entryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
         }
     }
 }
