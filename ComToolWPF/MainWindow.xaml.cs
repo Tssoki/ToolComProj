@@ -22,6 +22,8 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Linq;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
+using System.Threading;
+using System.Timers;
 
 namespace ComToolWPF
 {
@@ -45,16 +47,19 @@ namespace ComToolWPF
         string currentRange;
         string finalRange;
 
+        System.Timers.Timer timer;
+
     public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
             ReadMultipleValue();
+            SetTimer();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Update");
+            ReadMultipleValue();
         }
 
         private void InitGoogleAuth()
@@ -75,26 +80,44 @@ namespace ComToolWPF
 
         private void ReadMultipleValue()
         {
-            List<object> values = new List<object>();
-            string _range = "B3:B20";
+            List<Entry> _entries = new List<Entry>();
+            string _range = "B3:E100";
 
             string[] _valueRange = new[] { _range };
             BatchGetValuesResponse _multipleResponse = manager.GetMultipleValues(mySpreadSheetID, _valueRange);
 
             var _response = _multipleResponse.ValueRanges.ElementAt(0);
 
-            Console.WriteLine("GET VALUE");
             for (int i = 0; i < _response.Values.Count; i++)
             {
-                var _test = _response.Values[i];
+                var _item = _response.Values[i];
 
-                for (int y = 0; y < _test.Count; y++)
+                if (_item.Count >= 3)
                 {
-                    Console.WriteLine(_test[y]);
-                    values.Add(_test[y]);
+                    Entry _entry = new Entry(_item[0].ToString(), _item[1].ToString(), _item[2].ToString());
+                    if (_item.Count >= 4)
+                        _entry.Answer = _item[3].ToString();
+                    _entries.Add(_entry);
                 }
             }
-            entryList.ItemsSource = values;
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                entryList.ItemsSource = _entries;
+            }));
+        }
+
+        private void SetTimer()
+        {
+            timer = new System.Timers.Timer(60000);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
+            Console.WriteLine("SHEET Updated");
+            ReadMultipleValue();
         }
     }
 }

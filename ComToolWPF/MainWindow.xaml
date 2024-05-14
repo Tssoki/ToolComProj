@@ -17,15 +17,22 @@
         <Grid.Background>
             <SolidColorBrush Color="#2d302d"/>
         </Grid.Background>
-        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,51,36,72" AutoGenerateColumns="False" CanUserSortColumns="False">
+        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,51,36,72"
+                  AutoGenerateColumns="False"
+                  CanUserSortColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserResizeColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
-                <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Question" Width="300" HeaderStyle="{StaticResource CenterGridHeaderStyle}" />
-                <DataGridTextColumn Header="Answer" Width="300" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
+                <DataGridTextColumn Header="Question" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}"/>
+                <DataGridTextColumn Header="Answer" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Update" Margin="30,10,0,0" Click="Button_Click" HorizontalAlignment="Left" Width="177" Height="34" VerticalAlignment="Top"/>
     </Grid>
+    
+    
 
 </Window>
