@@ -17,9 +17,9 @@
         <Grid.Background>
             <SolidColorBrush Color="#2d302d"/>
         </Grid.Background>
-        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,51,36,72"
+        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,39,30,119"
                   AutoGenerateColumns="False"
-                  CanUserSortColumns="False"
+                  CanUserSortColumns="True"
                   CanUserReorderColumns="False"
                   CanUserResizeRows="False"
                   CanUserResizeColumns="False">
@@ -30,9 +30,10 @@
                 <DataGridTextColumn Header="Answer" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Update" Margin="30,10,0,0" Click="Button_Click" HorizontalAlignment="Left" Width="177" Height="34" VerticalAlignment="Top"/>
+        <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top"/>
+        <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top"/>
     </Grid>
-    
-    
+
+
 
 </Window>

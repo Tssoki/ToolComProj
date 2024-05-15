@@ -32,36 +32,36 @@ namespace ComToolWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
         string googleClientID;
         string googleClientSecret;
         string[] scopes;
+        string mySpreadSheetID;
+
         UserCredential credential;
         GoogleSheetsManager manager;
-        string mySpreadSheetID;
         Spreadsheet spreadSheet;
 
-        int index = 3;
-        string startingRange = "B3";
-        string currentRange;
-        string finalRange;
+        System.Timers.Timer updateTimer;
+        System.Timers.Timer secondsTimer;
 
-        System.Timers.Timer timer;
+        private float timerUpdateValue = 60;
+        private float timerValue = 0.0f;
 
     public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
-            ReadMultipleValue();
+            ResetSecondsTimer();
+            SetListItemsSource();
             SetTimer();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
-            ReadMultipleValue();
+            UpdateValidation();
         }
 
+        #region Init
         private void InitGoogleAuth()
         {
             googleClientID = "783201556069-qvrac98c53djpeede70t42pvopjqvs3f.apps.googleusercontent.com";
@@ -74,11 +74,34 @@ namespace ComToolWPF
 
             mySpreadSheetID = "199FDAfzCOxDYywfilvP5fopvGnp7_YrUv4VAlGVCXqA";
             spreadSheet = manager.GetSpreadSheet(mySpreadSheetID);
+        }
+        #endregion Init
 
-            currentRange = "B" + index.ToString();
+        private void ResetUpdateTimer()
+        {
+            updateTimer.Stop();
+            updateTimer.Start();
+        }
+        private void ResetSecondsTimer()
+        {
+            timerValue = timerUpdateValue;
         }
 
-        private void ReadMultipleValue()
+        private void SetListItemsSource()
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                entryList.ItemsSource = ReadMultipleValue();
+            }));
+        }
+
+        private void UpdateTab()
+        {
+            SetListItemsSource();
+            ResetUpdateTimer();
+            ResetSecondsTimer();
+        }
+        private List<Entry> ReadMultipleValue()
         {
             List<Entry> _entries = new List<Entry>();
             string _range = "B3:E100";
@@ -100,24 +123,79 @@ namespace ComToolWPF
                     _entries.Add(_entry);
                 }
             }
-            this.Dispatcher.Invoke((Action)(() =>
+            return _entries;
+        }
+        private void UpdateValidation()
+        {
+            string _message = "Pense à la limite de requête,\nC'est pour la planète !\nTu veux vraiment faire ça ?";
+            string _caption = "Abuse pas frère !";
+            MessageBoxButton _button = MessageBoxButton.YesNo;
+            MessageBoxImage _icon = MessageBoxImage.Question;
+            MessageBoxResult _result;
+
+            _result = MessageBox.Show(_message, _caption, _button, _icon, MessageBoxResult.No);
+            
+            switch (_result)
             {
-                entryList.ItemsSource = _entries;
-            }));
+                case MessageBoxResult.Yes:
+                    UpdateTab();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
 
+        #region Timer
         private void SetTimer()
         {
-            timer = new System.Timers.Timer(60000);
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-        }
+            updateTimer = new System.Timers.Timer(timerUpdateValue * 1000);
+            updateTimer.Elapsed += UpdateTabValue;
+            updateTimer.AutoReset = true;
+            updateTimer.Enabled = true;
 
-        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+            secondsTimer = new System.Timers.Timer(1000);
+            secondsTimer.Elapsed += UpdateSeconds;
+            secondsTimer.AutoReset = true;
+            secondsTimer.Enabled = true;
+        }
+        private void UpdateTabValue(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("SHEET Updated");
-            ReadMultipleValue();
+            SetListItemsSource();
+            ResetSecondsTimer();
+        }
+        private void UpdateSeconds(object sender, ElapsedEventArgs e)
+        {
+            if (timerValue >= 0)
+                timerValue--;
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                timerLabel.Content = timerValue.ToString();
+            }));
+        }
+        #endregion Timer
+
+        /// <summary>
+        /// Not Used
+        /// </summary>
+        /// <param name="_listToSort"></param>
+        /// <returns></returns>
+        List<Entry> SortEntryList(List<Entry> _listToSort)
+        {
+            for (int i = 0; i < _listToSort.Count; i++)
+            {
+                int j = i;
+
+                while (j > 0 && System.Convert.ToInt32(_listToSort[j].Priority) < System.Convert.ToInt32(_listToSort[j - 1].Priority))
+                {
+                    Entry _temp = _listToSort[j];
+                    _listToSort[j] = _listToSort[j - 1];
+                    _listToSort[j - 1] = _temp;
+                    j--;
+                }
+            }
+            return _listToSort;
         }
     }
+
 }
