@@ -74,6 +74,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="EntryCreationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +87,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entry.cs" />
+    <Compile Include="EntryCreationWindow.xaml.cs">
+      <DependentUpon>EntryCreationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GoogleAuthentification.cs" />
     <Compile Include="GoogleSheetsManager.cs" />
     <Compile Include="IGoogleSheetsManager.cs" />

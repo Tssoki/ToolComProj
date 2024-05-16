@@ -22,16 +22,42 @@
                   CanUserSortColumns="True"
                   CanUserReorderColumns="False"
                   CanUserResizeRows="False"
-                  CanUserResizeColumns="False">
+                  CanUserResizeColumns="False"
+                  RowHeight="50">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
                 <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
-                <DataGridTextColumn Header="Question" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}"/>
-                <DataGridTextColumn Header="Answer" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}"/>
+                <DataGridTextColumn Header="Question" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="AcceptsReturn" Value="True"/>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Answer" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style TargetType="TextBox">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="AcceptsReturn" Value="True"/>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top"/>
         <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top"/>
+        <Button Content="Create new" HorizontalAlignment="Left" Margin="30,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Click="Button_Click"/>
     </Grid>
 
 

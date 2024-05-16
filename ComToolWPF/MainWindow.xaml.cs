@@ -56,10 +56,16 @@ namespace ComToolWPF
             SetTimer();
         }
 
+        #region Event
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             UpdateValidation();
         }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenEntryCreationWindow();
+        }
+        #endregion Event
 
         #region Init
         private void InitGoogleAuth()
@@ -117,7 +123,7 @@ namespace ComToolWPF
 
                 if (_item.Count >= 3)
                 {
-                    Entry _entry = new Entry(_item[0].ToString(), _item[1].ToString(), _item[2].ToString());
+                    Entry _entry = new Entry(_item[0].ToString(), EPole.GD., _item[2].ToString());
                     if (_item.Count >= 4)
                         _entry.Answer = _item[3].ToString();
                     _entries.Add(_entry);
@@ -175,6 +181,13 @@ namespace ComToolWPF
         }
         #endregion Timer
 
+        void OpenEntryCreationWindow()
+        {
+            EntryCreationWindow _window = new EntryCreationWindow();
+            _window.Show();
+        }
+
+
         /// <summary>
         /// Not Used
         /// </summary>
@@ -196,6 +209,6 @@ namespace ComToolWPF
             }
             return _listToSort;
         }
-    }
 
+    }
 }

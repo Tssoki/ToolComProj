@@ -64,3 +64,5 @@ D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.csproj.CoreCompileInpu
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.csproj.CopyComplete
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.exe
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.pdb
+D:\repository\ToolComProj\ComToolWPF\obj\Debug\EntryCreationWindow.g.cs
+D:\repository\ToolComProj\ComToolWPF\obj\Debug\EntryCreationWindow.baml
