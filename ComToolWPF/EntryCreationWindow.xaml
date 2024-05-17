@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="EntryCreationWindow" Height="450" Width="800">
     <Grid>
-        <ComboBox HorizontalAlignment="Left" Margin="30,49,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="30,85,0,0" VerticalAlignment="Top" Width="120"/>
-
+        <ComboBox HorizontalAlignment="Left" Margin="30,49,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPriority"/>
+        <ComboBox HorizontalAlignment="Left" Margin="30,85,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPole"/>
+        <TextBox HorizontalAlignment="Left" Margin="170,49,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" Height="58" x:Name="textBoxQuestion"/>
+        <Button Content="CREATE" HorizontalAlignment="Center" Margin="0,333,0,0" VerticalAlignment="Top" Height="78" Width="472" Click="Button_Click"/>
     </Grid>
 </Window>

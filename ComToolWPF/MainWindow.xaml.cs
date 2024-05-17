@@ -35,10 +35,10 @@ namespace ComToolWPF
         string googleClientID;
         string googleClientSecret;
         string[] scopes;
-        string mySpreadSheetID;
+        public string mySpreadSheetID { get; private set; }
 
         UserCredential credential;
-        GoogleSheetsManager manager;
+        public GoogleSheetsManager manager { get; private set; }
         Spreadsheet spreadSheet;
 
         System.Timers.Timer updateTimer;
@@ -47,7 +47,29 @@ namespace ComToolWPF
         private float timerUpdateValue = 60;
         private float timerValue = 0.0f;
 
-    public MainWindow()
+        private Dictionary<string, EPole> stringToPole = new Dictionary<string, EPole>()
+        {
+            { "CCC", EPole.CCC },
+            { "IA", EPole.IA },
+            { "UI", EPole.UI },
+            { "GD", EPole.GD }
+        };
+
+        private Dictionary<string, EPriority> stringToPriority = new Dictionary<string, EPriority>()
+        {
+            { "URGENT", EPriority.URGENT },
+            { "TRANQUILLE", EPriority.TRANQUILLE },
+            { "BLC", EPriority.BLC }
+        };
+
+        public int ValueCount { get; set; }
+
+        private bool is3CFilterActive = false;
+        private bool isUIFilterActive = false;
+
+        List<Entry> entries = new List<Entry>();
+
+        public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
@@ -64,6 +86,10 @@ namespace ComToolWPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenEntryCreationWindow();
+        }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            
         }
         #endregion Event
 
@@ -101,7 +127,7 @@ namespace ComToolWPF
             }));
         }
 
-        private void UpdateTab()
+        public void UpdateTab()
         {
             SetListItemsSource();
             ResetUpdateTimer();
@@ -109,6 +135,7 @@ namespace ComToolWPF
         }
         private List<Entry> ReadMultipleValue()
         {
+            entries.Clear();
             List<Entry> _entries = new List<Entry>();
             string _range = "B3:E100";
 
@@ -123,12 +150,14 @@ namespace ComToolWPF
 
                 if (_item.Count >= 3)
                 {
-                    Entry _entry = new Entry(_item[0].ToString(), EPole.GD., _item[2].ToString());
+                    Entry _entry = new Entry(stringToPriority[_item[0].ToString()], stringToPole[_item[1].ToString()], _item[2].ToString());
                     if (_item.Count >= 4)
                         _entry.Answer = _item[3].ToString();
                     _entries.Add(_entry);
                 }
+                ValueCount = _entries.Count;
             }
+            entries = _entries;
             return _entries;
         }
         private void UpdateValidation()
@@ -144,6 +173,7 @@ namespace ComToolWPF
             switch (_result)
             {
                 case MessageBoxResult.Yes:
+                    is3C = false;
                     UpdateTab();
                     break;
                 case MessageBoxResult.No:
@@ -177,6 +207,7 @@ namespace ComToolWPF
             this.Dispatcher.Invoke(new Action(() =>
             {
                 timerLabel.Content = timerValue.ToString();
+                Console.WriteLine(is3C.ToString());
             }));
         }
         #endregion Timer
@@ -186,29 +217,5 @@ namespace ComToolWPF
             EntryCreationWindow _window = new EntryCreationWindow();
             _window.Show();
         }
-
-
-        /// <summary>
-        /// Not Used
-        /// </summary>
-        /// <param name="_listToSort"></param>
-        /// <returns></returns>
-        List<Entry> SortEntryList(List<Entry> _listToSort)
-        {
-            for (int i = 0; i < _listToSort.Count; i++)
-            {
-                int j = i;
-
-                while (j > 0 && System.Convert.ToInt32(_listToSort[j].Priority) < System.Convert.ToInt32(_listToSort[j - 1].Priority))
-                {
-                    Entry _temp = _listToSort[j];
-                    _listToSort[j] = _listToSort[j - 1];
-                    _listToSort[j - 1] = _temp;
-                    j--;
-                }
-            }
-            return _listToSort;
-        }
-
     }
 }

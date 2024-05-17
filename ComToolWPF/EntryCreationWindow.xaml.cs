@@ -19,9 +19,33 @@ namespace ComToolWPF
     /// </summary>
     public partial class EntryCreationWindow : Window
     {
+        MainWindow mainWindow;
+        GoogleSheetsManager manager;
+
         public EntryCreationWindow()
         {
             InitializeComponent();
+            InitComboBox();
+            mainWindow = (MainWindow)Application.Current.MainWindow;
+            manager = mainWindow.manager;
+        }
+
+        private void InitComboBox()
+        {
+            comboBoxPriority.ItemsSource = System.Enum.GetValues(typeof(EPriority));
+            comboBoxPriority.SelectedIndex = 0;
+
+            comboBoxPole.ItemsSource = System.Enum.GetValues(typeof(EPole));
+            comboBoxPole.SelectedIndex = 0;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "B" + (mainWindow.ValueCount + 3).ToString(), comboBoxPriority.Text);
+            manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "C" + (mainWindow.ValueCount + 3).ToString(), comboBoxPole.Text);
+            manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "D" + (mainWindow.ValueCount + 3).ToString(), textBoxQuestion.Text);
+            mainWindow.UpdateTab();
+            Close();
         }
     }
 }

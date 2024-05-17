@@ -58,6 +58,7 @@
         <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top"/>
         <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top"/>
         <Button Content="Create new" HorizontalAlignment="Left" Margin="30,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Click="Button_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="30,4,0,0" VerticalAlignment="Top" Height="30" Width="70" Click="Button_Click_1"/>
     </Grid>
 
 

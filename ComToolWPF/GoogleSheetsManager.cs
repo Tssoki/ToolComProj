@@ -141,7 +141,7 @@ namespace ComToolWPF
         /// <param name="_range"></param>
         /// <param name="_cellText"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        //public void UpdateMultipleCells(string _googleSpreadsheetIdentifier, string _range, string _cellText)
+        //public void UpdateMultipleCells(string _googleSpreadsheetIdentifier, string[] _range, string _cellText)
         //{
         //    if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
         //        throw new ArgumentNullException(nameof(_googleSpreadsheetIdentifier));
@@ -154,14 +154,14 @@ namespace ComToolWPF
         //        //_updateRequest.Data = 
 
         //        ValueRange _valueRange = new ValueRange();
-        //        //_valueRange.MajorDimension = "COLUMNS";
+        //        _valueRange.MajorDimension = "RAW";
 
         //        var _obList = new List<object>() { _cellText, "test" };
         //        _valueRange.Values = new List<IList<object>> { _obList };
 
-        //        SpreadsheetsResource.ValuesResource.BatchUpdateRequest update = _sheetService.Spreadsheets.Values.BatchUpdate(_updateRequest, _googleSpreadsheetIdentifier);
-        //        //update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
-        //        //UpdateValuesResponse result2 = update.Execute();
+        //        SpreadsheetsResource.ValuesResource.BatchUpdateRequest _update = _sheetService.Spreadsheets.Values.BatchUpdate(_updateRequest, _googleSpreadsheetIdentifier);
+        //        _update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+        //        UpdateValuesResponse result2 = _update.Execute();
         //    }
         //}
     }
