@@ -14,6 +14,10 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="587*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <SolidColorBrush Color="#2d302d"/>
         </Grid.Background>
@@ -23,7 +27,7 @@
                   CanUserReorderColumns="False"
                   CanUserResizeRows="False"
                   CanUserResizeColumns="False"
-                  RowHeight="50">
+                  RowHeight="50" Grid.ColumnSpan="2" SelectionChanged="entryList_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
                 <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
@@ -55,10 +59,12 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top"/>
-        <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top"/>
-        <Button Content="Create new" HorizontalAlignment="Left" Margin="30,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Click="Button_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="30,4,0,0" VerticalAlignment="Top" Height="30" Width="70" Click="Button_Click_1"/>
+        <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button Content="Create new" HorizontalAlignment="Left" Margin="30,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <ComboBox HorizontalAlignment="Left" Margin="30,8,0,0" VerticalAlignment="Top" Width="80" x:Name="comboBoxFilter" Grid.ColumnSpan="2" Text="NULL" />
+        <Button Content="Clear" HorizontalAlignment="Left" Margin="9,8,0,0" VerticalAlignment="Top" Height="22" Click="ClearButtonClick" Grid.Column="1"/>
+        <Button Content="Edit" x:Name="editButton" HorizontalAlignment="Left" Margin="70,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Grid.Column="1" Visibility="Hidden"/>
     </Grid>
 
 

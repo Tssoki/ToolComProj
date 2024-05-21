@@ -24,6 +24,23 @@ using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using System.Timers;
+using System.Runtime.CompilerServices;
+using ExtensionMethods;
+using System.IO.IsolatedStorage;
+
+namespace ExtensionMethods
+{
+    public static class ListUpdate
+    {
+        public static void UpdateAll<T>(this List<T> _items, T _newValue)
+        {
+            for (var i = 0; i < _items.Count; i++)
+            {
+                _items[i] = _newValue;
+            }
+        }
+    }
+}
 
 namespace ComToolWPF
 {
@@ -64,15 +81,17 @@ namespace ComToolWPF
 
         public int ValueCount { get; set; }
 
-        private bool is3CFilterActive = false;
-        private bool isUIFilterActive = false;
-
         List<Entry> entries = new List<Entry>();
+
+        bool isFiltered = false;
+
+        List<Entry> currentList = new List<Entry>();
 
         public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
+            InitFilterComboBox();
             ResetSecondsTimer();
             SetListItemsSource();
             SetTimer();
@@ -87,10 +106,49 @@ namespace ComToolWPF
         {
             OpenEntryCreationWindow();
         }
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ComboBoxFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (comboBoxFilter.SelectedItem == null) return;
+            FilterEntries();
         }
+        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            entryList.ItemsSource = entries;
+            comboBoxFilter.SelectedItem = null;
+            isFiltered = false;
+        }
+        private void entryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Entry> _withAnswer = new List<Entry>();
+
+            int _index = entryList.SelectedIndex;
+            Console.WriteLine(_index.ToString());
+
+            if (_index < 0) return;
+            if (!isFiltered)
+            {
+                if (entries[_index].Answer.Trim() == "")
+                {
+                    editButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    editButton.Visibility = Visibility.Hidden;
+                }
+            }
+            else
+            {
+                if (currentList[_index].Answer.Trim() == "")
+                {
+                    editButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    editButton.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
         #endregion Event
 
         #region Init
@@ -106,6 +164,32 @@ namespace ComToolWPF
 
             mySpreadSheetID = "199FDAfzCOxDYywfilvP5fopvGnp7_YrUv4VAlGVCXqA";
             spreadSheet = manager.GetSpreadSheet(mySpreadSheetID);
+        }
+        private void InitFilterComboBox()
+        {
+            comboBoxFilter.ItemsSource = System.Enum.GetValues(typeof(EPole));
+            comboBoxFilter.SelectedIndex = 0;
+            comboBoxFilter.SelectedItem = null;
+
+            comboBoxFilter.SelectionChanged += ComboBoxFilter_SelectionChanged;
+        }
+
+        private void FilterEntries()
+        {
+            editButton.Visibility = Visibility.Hidden;
+
+            List<Entry> _temp = new List<Entry>();
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
+                {
+                    _temp.Add(entries[i]);
+                }
+            }
+            currentList = _temp;
+            entryList.ItemsSource = _temp;
+            isFiltered = true;
         }
         #endregion Init
 
@@ -123,6 +207,13 @@ namespace ComToolWPF
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
+                if (isFiltered)
+                {
+                    ReadMultipleValue();
+                    FilterEntries();
+                    return;
+                }
+
                 entryList.ItemsSource = ReadMultipleValue();
             }));
         }
@@ -173,7 +264,7 @@ namespace ComToolWPF
             switch (_result)
             {
                 case MessageBoxResult.Yes:
-                    is3C = false;
+                    //is3C = false;
                     UpdateTab();
                     break;
                 case MessageBoxResult.No:
@@ -207,7 +298,7 @@ namespace ComToolWPF
             this.Dispatcher.Invoke(new Action(() =>
             {
                 timerLabel.Content = timerValue.ToString();
-                Console.WriteLine(is3C.ToString());
+                //Console.WriteLine(is3C.ToString());
             }));
         }
         #endregion Timer
@@ -217,5 +308,7 @@ namespace ComToolWPF
             EntryCreationWindow _window = new EntryCreationWindow();
             _window.Show();
         }
+
+
     }
 }
