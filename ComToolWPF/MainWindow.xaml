@@ -19,9 +19,13 @@
             <ColumnDefinition Width="587*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <SolidColorBrush Color="#2d302d"/>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF131313" Offset="1"/>
+                <GradientStop Color="#FF464343" Offset="0"/>
+            </LinearGradientBrush>
         </Grid.Background>
-        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,39,30,119"
+        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,39,30,73"
                   AutoGenerateColumns="False"
                   CanUserSortColumns="True"
                   CanUserReorderColumns="False"
@@ -31,7 +35,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
                 <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
-                <DataGridTextColumn Header="Question" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
+                <DataGridTextColumn Header="Question" Width="527.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -44,7 +48,7 @@
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Answer" Width="556" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
+                <DataGridTextColumn Header="Answer" Width="527" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -61,10 +65,10 @@
         </DataGrid>
         <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
         <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button Content="Create new" HorizontalAlignment="Left" Margin="30,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Click="Button_Click" Grid.ColumnSpan="2"/>
+        <Button Content="Create new" Margin="30,0,0,16" VerticalAlignment="Bottom" Height="40" Click="Button_Click" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="120"/>
         <ComboBox HorizontalAlignment="Left" Margin="30,8,0,0" VerticalAlignment="Top" Width="80" x:Name="comboBoxFilter" Grid.ColumnSpan="2" Text="NULL" />
         <Button Content="Clear" HorizontalAlignment="Left" Margin="9,8,0,0" VerticalAlignment="Top" Height="22" Click="ClearButtonClick" Grid.Column="1"/>
-        <Button Content="Edit" x:Name="editButton" HorizontalAlignment="Left" Margin="70,611,0,0" VerticalAlignment="Top" Height="40" Width="120" Grid.Column="1" Visibility="Hidden"/>
+        <Button Content="Edit" x:Name="editButton" Margin="62,0,0,16" VerticalAlignment="Bottom" Height="40" Grid.Column="1"  Click="editButton_Click" HorizontalAlignment="Left" Width="120"/>
     </Grid>
 
 

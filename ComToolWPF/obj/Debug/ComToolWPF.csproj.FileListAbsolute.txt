@@ -66,3 +66,5 @@ D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.exe
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.pdb
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\EntryCreationWindow.g.cs
 D:\repository\ToolComProj\ComToolWPF\obj\Debug\EntryCreationWindow.baml
+D:\repository\ToolComProj\ComToolWPF\obj\Debug\EditWindow.g.cs
+D:\repository\ToolComProj\ComToolWPF\obj\Debug\EditWindow.baml

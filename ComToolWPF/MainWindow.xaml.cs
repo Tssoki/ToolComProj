@@ -81,11 +81,13 @@ namespace ComToolWPF
 
         public int ValueCount { get; set; }
 
-        List<Entry> entries = new List<Entry>();
+        public List<Entry> entries = new List<Entry>();
 
         bool isFiltered = false;
 
         List<Entry> currentList = new List<Entry>();
+
+        public Entry CurrentSelectedEntry { get; private set; }
 
         public MainWindow()
         {
@@ -121,6 +123,9 @@ namespace ComToolWPF
         {
             List<Entry> _withAnswer = new List<Entry>();
 
+            if (entryList.SelectedItem != null)
+                CurrentSelectedEntry = entryList.SelectedItem as Entry;
+
             int _index = entryList.SelectedIndex;
             Console.WriteLine(_index.ToString());
 
@@ -148,6 +153,10 @@ namespace ComToolWPF
                 }
             }
         }
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenEditWindow();
+        }
 
         #endregion Event
 
@@ -173,35 +182,7 @@ namespace ComToolWPF
 
             comboBoxFilter.SelectionChanged += ComboBoxFilter_SelectionChanged;
         }
-
-        private void FilterEntries()
-        {
-            editButton.Visibility = Visibility.Hidden;
-
-            List<Entry> _temp = new List<Entry>();
-
-            for (int i = 0; i < entries.Count; i++)
-            {
-                if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
-                {
-                    _temp.Add(entries[i]);
-                }
-            }
-            currentList = _temp;
-            entryList.ItemsSource = _temp;
-            isFiltered = true;
-        }
         #endregion Init
-
-        private void ResetUpdateTimer()
-        {
-            updateTimer.Stop();
-            updateTimer.Start();
-        }
-        private void ResetSecondsTimer()
-        {
-            timerValue = timerUpdateValue;
-        }
 
         private void SetListItemsSource()
         {
@@ -218,12 +199,6 @@ namespace ComToolWPF
             }));
         }
 
-        public void UpdateTab()
-        {
-            SetListItemsSource();
-            ResetUpdateTimer();
-            ResetSecondsTimer();
-        }
         private List<Entry> ReadMultipleValue()
         {
             entries.Clear();
@@ -241,7 +216,7 @@ namespace ComToolWPF
 
                 if (_item.Count >= 3)
                 {
-                    Entry _entry = new Entry(stringToPriority[_item[0].ToString()], stringToPole[_item[1].ToString()], _item[2].ToString());
+                    Entry _entry = new Entry(i ,stringToPriority[_item[0].ToString()], stringToPole[_item[1].ToString()], _item[2].ToString());
                     if (_item.Count >= 4)
                         _entry.Answer = _item[3].ToString();
                     _entries.Add(_entry);
@@ -250,6 +225,42 @@ namespace ComToolWPF
             }
             entries = _entries;
             return _entries;
+        }
+        private void FilterEntries()
+        {
+            editButton.Visibility = Visibility.Hidden;
+
+            List<Entry> _temp = new List<Entry>();
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
+                {
+                    _temp.Add(entries[i]);
+                }
+            }
+            currentList = _temp;
+            entryList.ItemsSource = _temp;
+            isFiltered = true;
+        }
+        void OpenEntryCreationWindow()
+        {
+            EntryCreationWindow _window = new EntryCreationWindow();
+            _window.Show();
+        }
+        void OpenEditWindow()
+        {
+            EditWindow _window = new EditWindow();
+            _window.Show();
+        }
+
+
+        #region Timer
+        public void UpdateTab()
+        {
+            SetListItemsSource();
+            ResetUpdateTimer();
+            ResetSecondsTimer();
         }
         private void UpdateValidation()
         {
@@ -271,20 +282,6 @@ namespace ComToolWPF
                     break;
             }
         }
-
-        #region Timer
-        private void SetTimer()
-        {
-            updateTimer = new System.Timers.Timer(timerUpdateValue * 1000);
-            updateTimer.Elapsed += UpdateTabValue;
-            updateTimer.AutoReset = true;
-            updateTimer.Enabled = true;
-
-            secondsTimer = new System.Timers.Timer(1000);
-            secondsTimer.Elapsed += UpdateSeconds;
-            secondsTimer.AutoReset = true;
-            secondsTimer.Enabled = true;
-        }
         private void UpdateTabValue(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("SHEET Updated");
@@ -301,14 +298,28 @@ namespace ComToolWPF
                 //Console.WriteLine(is3C.ToString());
             }));
         }
-        #endregion Timer
-
-        void OpenEntryCreationWindow()
+        private void SetTimer()
         {
-            EntryCreationWindow _window = new EntryCreationWindow();
-            _window.Show();
-        }
+            updateTimer = new System.Timers.Timer(timerUpdateValue * 1000);
+            updateTimer.Elapsed += UpdateTabValue;
+            updateTimer.AutoReset = true;
+            updateTimer.Enabled = true;
 
+            secondsTimer = new System.Timers.Timer(1000);
+            secondsTimer.Elapsed += UpdateSeconds;
+            secondsTimer.AutoReset = true;
+            secondsTimer.Enabled = true;
+        }
+        private void ResetUpdateTimer()
+        {
+            updateTimer.Stop();
+            updateTimer.Start();
+        }
+        private void ResetSecondsTimer()
+        {
+            timerValue = timerUpdateValue;
+        }
+        #endregion Timer
 
     }
 }

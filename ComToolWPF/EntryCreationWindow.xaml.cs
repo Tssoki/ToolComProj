@@ -23,7 +23,7 @@ namespace ComToolWPF
         GoogleSheetsManager manager;
 
         public EntryCreationWindow()
-        {
+        { 
             InitializeComponent();
             InitComboBox();
             mainWindow = (MainWindow)Application.Current.MainWindow;

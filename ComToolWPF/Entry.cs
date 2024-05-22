@@ -27,9 +27,11 @@ namespace ComToolWPF
         public EPole Pole { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
+        public int Index { get; private set; }
 
-        public Entry(EPriority _priority, EPole _pole, string _question, string _answer = "")
+        public Entry(int _index, EPriority _priority, EPole _pole, string _question, string _answer = "")
         {
+            Index = _index;
             Priority = _priority;
             Pole = _pole;
             Question = _question;
