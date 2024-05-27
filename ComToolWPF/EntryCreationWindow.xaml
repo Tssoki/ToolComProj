@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComToolWPF"
         mc:Ignorable="d"
+        Background="#599CC7"
         Title="EntryCreationWindow" Height="450" Width="800">
     <Grid>
         <ComboBox HorizontalAlignment="Left" Margin="30,49,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPriority"/>
         <ComboBox HorizontalAlignment="Left" Margin="30,85,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPole"/>
-        <TextBox HorizontalAlignment="Left" Margin="170,49,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" Height="58" x:Name="textBoxQuestion"/>
+        <TextBox HorizontalAlignment="Left" Margin="30,159,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="606" Height="77" x:Name="textBoxQuestion"/>
         <Button Content="CREATE" HorizontalAlignment="Center" Margin="0,333,0,0" VerticalAlignment="Top" Height="78" Width="472" Click="Button_Click"/>
     </Grid>
 </Window>

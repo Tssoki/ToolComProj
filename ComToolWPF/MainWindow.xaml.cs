@@ -250,6 +250,7 @@ namespace ComToolWPF
         }
         void OpenEditWindow()
         {
+            if (CurrentSelectedEntry == null) return;
             EditWindow _window = new EditWindow();
             _window.Show();
         }

@@ -5,37 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComToolWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Background="#2E504C"
+        Title="MainWindow" Height="720" Width="1280"
+        >
 
     <Window.Resources>
         <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="587*"/>
         </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="#FF131313" Offset="1"/>
-                <GradientStop Color="#FF464343" Offset="0"/>
-            </LinearGradientBrush>
-        </Grid.Background>
         <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,39,30,73"
-                  AutoGenerateColumns="False"
-                  CanUserSortColumns="True"
-                  CanUserReorderColumns="False"
-                  CanUserResizeRows="False"
-                  CanUserResizeColumns="False"
-                  RowHeight="50" Grid.ColumnSpan="2" SelectionChanged="entryList_SelectionChanged">
+                AutoGenerateColumns="False"
+                CanUserSortColumns="True"
+                CanUserReorderColumns="False"
+                CanUserResizeRows="False"
+                CanUserResizeColumns="False"
+                RowBackground="#E9FFFC"
+                AlternatingRowBackground="#BADFDB"
+                RowHeight="50" Grid.ColumnSpan="3" SelectionChanged="entryList_SelectionChanged" BorderThickness="0,0,0,0" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
                 <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
-                <DataGridTextColumn Header="Question" Width="527.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
+                <DataGridTextColumn Header="Question" Width="535.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -48,7 +45,7 @@
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Answer" Width="527" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
+                <DataGridTextColumn Header="Answer" Width="535.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -63,14 +60,13 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
-        <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="#FFDDDDDD" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button Content="Create new" Margin="30,0,0,16" VerticalAlignment="Bottom" Height="40" Click="Button_Click" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="120"/>
-        <ComboBox HorizontalAlignment="Left" Margin="30,8,0,0" VerticalAlignment="Top" Width="80" x:Name="comboBoxFilter" Grid.ColumnSpan="2" Text="NULL" />
-        <Button Content="Clear" HorizontalAlignment="Left" Margin="9,8,0,0" VerticalAlignment="Top" Height="22" Click="ClearButtonClick" Grid.Column="1"/>
-        <Button Content="Edit" x:Name="editButton" Margin="62,0,0,16" VerticalAlignment="Bottom" Height="40" Grid.Column="1"  Click="editButton_Click" HorizontalAlignment="Left" Width="120"/>
+        <Button Content="Update" Margin="0,4,70,0" Click="UpdateButtonClick" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top" Grid.Column="2" Background="#4A8079" Foreground="White"/>
+        <Label Content="0" x:Name="timerLabel" HorizontalAlignment="Right" Margin="0,4,30,0" Foreground="Red" Background="Transparent" Width="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Height="30" VerticalAlignment="Top" Grid.Column="2"/>
+        <Button Content="Create new" x:Name="createButton" Margin="30,0,0,16" VerticalAlignment="Bottom" Height="40" Click="Button_Click" Grid.ColumnSpan="3" HorizontalAlignment="Left" Width="120" Background="#162524" Foreground="White"/>
+        <Button Content="Clear" HorizontalAlignment="Left" Margin="9,8,0,0" VerticalAlignment="Top" Height="22" Click="ClearButtonClick" Grid.Column="2" Background="#162524" Foreground="White"/>
+        <Button Content="Edit" x:Name="editButton" Margin="62,0,0,16" VerticalAlignment="Bottom" Height="40" Grid.Column="2"  Click="editButton_Click" HorizontalAlignment="Left" Width="120" Background="#162524" Foreground="White"/>
+        <ComboBox HorizontalAlignment="Left" Margin="30,8,0,0" VerticalAlignment="Top" Width="80" x:Name="comboBoxFilter" Grid.ColumnSpan="3" Text="NULL" Background="#6FBFB6" />
     </Grid>
-
 
 
 </Window>

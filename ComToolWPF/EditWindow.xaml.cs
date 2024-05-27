@@ -28,6 +28,8 @@ namespace ComToolWPF
             mainWindow = (MainWindow)Application.Current.MainWindow;
             manager = mainWindow.manager;
 
+            if (mainWindow.CurrentSelectedEntry == null) return;
+
             questionTextBlock.Text = mainWindow.CurrentSelectedEntry.Question;
         }
 

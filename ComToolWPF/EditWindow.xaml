@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComToolWPF"
         mc:Ignorable="d"
+        Background="#00416A"
         Title="EditWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Send" HorizontalAlignment="Center" Margin="0,338,0,0" VerticalAlignment="Top" Height="86" Width="250" Click="Button_Click"/>
-        <TextBlock x:Name="questionTextBlock" HorizontalAlignment="Left" Margin="60,21,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="39" Width="146"/>
-        <TextBox x:Name="answerTextBox" HorizontalAlignment="Left" Margin="60,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="340" Height="69"/>
+        <Button Content="SEND" HorizontalAlignment="Center" Margin="0,338,0,0" VerticalAlignment="Top" Height="86" Width="250" Click="Button_Click"/>
+        <TextBlock x:Name="questionTextBlock" HorizontalAlignment="Left" Margin="60,21,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="39" Width="692"/>
+        <TextBox x:Name="answerTextBox" HorizontalAlignment="Left" Margin="60,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="692" Height="69"/>
 
     </Grid>
 </Window>
