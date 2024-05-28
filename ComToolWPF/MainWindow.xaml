@@ -3,18 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ComToolWPF"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Background="#2E504C"
-        Title="MainWindow" Height="720" Width="1280"
-        >
+        Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
+        
     </Window.Resources>
-    <Grid>
+
+    <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Menu Logo-->
+            <Border Grid.Row="1" Background="#623ed0" CornerRadius="30 0 0 30">
+                <DockPanel>
+                    
+                </DockPanel>
+            </Border>
+        
+            <!--Main Section-->
+            <Grid Grid.Column="1" Margin="30 20 20 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                
+                <!--Page Title-->
+                <TextBlock Text="Title Test" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0"
+                           HorizontalAlignment="Left" Foreground="#121518"/>
+                
+                <!--Add Button-->
+                <Button Style="{StaticResource addButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center" Width="11" Height="11" Margin="0 1 8 0"/>
+                        <TextBlock Text="Add New Entry"/>
+                    </StackPanel>
+                </Button>
+                
+            </Grid>
+        </Grid>
+        
+        
+        
+    </Border>
+    
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48*"/>
             <ColumnDefinition Width="5*"/>
@@ -30,9 +68,9 @@
                 AlternatingRowBackground="#BADFDB"
                 RowHeight="50" Grid.ColumnSpan="3" SelectionChanged="entryList_SelectionChanged" BorderThickness="0,0,0,0" SelectionMode="Single">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Priority" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Binding="{Binding Priority}"/>
-                <DataGridTextColumn Header="Pole" Width="50" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Pole}"/>
-                <DataGridTextColumn Header="Question" Width="535.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Question}">
+                <DataGridTextColumn Header="Priority" Binding="{Binding Priority}"/>
+                <DataGridTextColumn Header="Pole" Width="50" Binding="{Binding Pole}"/>
+                <DataGridTextColumn Header="Question" Width="535.5" Binding="{Binding Question}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -45,7 +83,7 @@
                         </Style>
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Answer" Width="535.5" HeaderStyle="{StaticResource CenterGridHeaderStyle}"  Binding="{Binding Answer}">
+                <DataGridTextColumn Header="Answer" Width="535.5" Binding="{Binding Answer}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextWrapping" Value="Wrap"/>
@@ -66,7 +104,7 @@
         <Button Content="Clear" HorizontalAlignment="Left" Margin="9,8,0,0" VerticalAlignment="Top" Height="22" Click="ClearButtonClick" Grid.Column="2" Background="#162524" Foreground="White"/>
         <Button Content="Edit" x:Name="editButton" Margin="62,0,0,16" VerticalAlignment="Bottom" Height="40" Grid.Column="2"  Click="editButton_Click" HorizontalAlignment="Left" Width="120" Background="#162524" Foreground="White"/>
         <ComboBox HorizontalAlignment="Left" Margin="30,8,0,0" VerticalAlignment="Top" Width="80" x:Name="comboBoxFilter" Grid.ColumnSpan="3" Text="NULL" Background="#6FBFB6" />
-    </Grid>
+    </Grid>-->
 
 
 </Window>
