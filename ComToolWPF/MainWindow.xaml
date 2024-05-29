@@ -8,8 +8,12 @@
         Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Window.Resources>
-        
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
     </Window.Resources>
+    
+    
 
     <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
@@ -21,22 +25,25 @@
             <!--Menu Logo-->
             <Border Grid.Row="1" Background="#623ed0" CornerRadius="30 0 0 30">
                 <DockPanel>
-                    
+
                 </DockPanel>
             </Border>
-        
+
             <!--Main Section-->
             <Grid Grid.Column="1" Margin="30 20 20 20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                
+
                 <!--Page Title-->
                 <TextBlock Text="Title Test" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0"
                            HorizontalAlignment="Left" Foreground="#121518"/>
-                
+
                 <!--Add Button-->
                 <Button Style="{StaticResource addButton}">
                     <StackPanel Orientation="Horizontal">
@@ -44,21 +51,44 @@
                         <TextBlock Text="Add New Entry"/>
                     </StackPanel>
                 </Button>
-                
+
+                <!--Separator-->
+                <Separator Height="1" Grid.Row="2" Background="#dae2ea" Margin="0 -1 0 10"/>
+
+                <!--Tab Buttons-->
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 10 0 0">
+                    <Button Content="No Answer" Style="{StaticResource tabButton}" BorderBrush="#784ff2"/>
+                    <Button Content="Answered" Style="{StaticResource tabButton}"/>
+                </StackPanel>
+
+                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="4" x:Name="entriesDataGrid" Margin="-10,76,10,-66">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Priority" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Priority}" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="Pole" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Pole}" ElementStyle="{StaticResource WrapText}"/>
+
+                        <DataGridTextColumn Header="Question" IsReadOnly="True" Width="*" Binding="{Binding Question}" ElementStyle="{StaticResource WrapText}"/>
+                        <DataGridTextColumn Header="Answer" IsReadOnly="True" Width="*" Binding="{Binding Answer}" ElementStyle="{StaticResource WrapText}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!--Page Title-->
+                <TextBlock Text="Title Test" Grid.Row="5" FontSize="32" FontWeight="SemiBold" Margin="0 10 0 0"
+                    HorizontalAlignment="Left" Foreground="#121518"/>
             </Grid>
         </Grid>
-        
-        
-        
+
+
+
     </Border>
-    
+
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48*"/>
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="587*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid IsReadOnly="True" x:Name="entryList" d:ItemsSource="{Binding TestList}" Margin="30,39,30,73"
+        <DataGrid IsReadOnly="True" x:Name="
+    " d:ItemsSource="{Binding TestList}" Margin="30,39,30,73"
                 AutoGenerateColumns="False"
                 CanUserSortColumns="True"
                 CanUserReorderColumns="False"
@@ -66,7 +96,7 @@
                 CanUserResizeColumns="False"
                 RowBackground="#E9FFFC"
                 AlternatingRowBackground="#BADFDB"
-                RowHeight="50" Grid.ColumnSpan="3" SelectionChanged="entryList_SelectionChanged" BorderThickness="0,0,0,0" SelectionMode="Single">
+                RowHeight="50" Grid.ColumnSpan="3" SelectionChanged="entriesDataGrid_SelectionChanged" BorderThickness="0,0,0,0" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Priority" Binding="{Binding Priority}"/>
                 <DataGridTextColumn Header="Pole" Width="50" Binding="{Binding Pole}"/>

@@ -110,23 +110,23 @@ namespace ComToolWPF
         }
         private void ComboBoxFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (comboBoxFilter.SelectedItem == null) return;
+            //if (comboBoxFilter.SelectedItem == null) return;
             FilterEntries();
         }
         private void ClearButtonClick(object sender, RoutedEventArgs e)
         {
-            entryList.ItemsSource = entries;
-            comboBoxFilter.SelectedItem = null;
+            entriesDataGrid.ItemsSource = entries;
+            //comboBoxFilter.SelectedItem = null;
             isFiltered = false;
         }
-        private void entryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             List<Entry> _withAnswer = new List<Entry>();
 
-            if (entryList.SelectedItem != null)
-                CurrentSelectedEntry = entryList.SelectedItem as Entry;
+            if (entriesDataGrid.SelectedItem != null)
+                CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
 
-            int _index = entryList.SelectedIndex;
+            int _index = entriesDataGrid.SelectedIndex;
             Console.WriteLine(_index.ToString());
 
             if (_index < 0) return;
@@ -134,22 +134,22 @@ namespace ComToolWPF
             {
                 if (entries[_index].Answer.Trim() == "")
                 {
-                    editButton.Visibility = Visibility.Visible;
+                    //editButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    editButton.Visibility = Visibility.Hidden;
+                    //editButton.Visibility = Visibility.Hidden;
                 }
             }
             else
             {
                 if (currentList[_index].Answer.Trim() == "")
                 {
-                    editButton.Visibility = Visibility.Visible;
+                    //editButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    editButton.Visibility = Visibility.Hidden;
+                    //editButton.Visibility = Visibility.Hidden;
                 }
             }
         }
@@ -176,11 +176,11 @@ namespace ComToolWPF
         }
         private void InitFilterComboBox()
         {
-            comboBoxFilter.ItemsSource = System.Enum.GetValues(typeof(EPole));
-            comboBoxFilter.SelectedIndex = 0;
-            comboBoxFilter.SelectedItem = null;
+            //comboBoxFilter.ItemsSource = System.Enum.GetValues(typeof(EPole));
+            //comboBoxFilter.SelectedIndex = 0;
+            //comboBoxFilter.SelectedItem = null;
 
-            comboBoxFilter.SelectionChanged += ComboBoxFilter_SelectionChanged;
+            //comboBoxFilter.SelectionChanged += ComboBoxFilter_SelectionChanged;
         }
         #endregion Init
 
@@ -195,7 +195,7 @@ namespace ComToolWPF
                     return;
                 }
 
-                entryList.ItemsSource = ReadMultipleValue();
+                entriesDataGrid.ItemsSource = ReadMultipleValue();
             }));
         }
 
@@ -228,19 +228,19 @@ namespace ComToolWPF
         }
         private void FilterEntries()
         {
-            editButton.Visibility = Visibility.Hidden;
+            //editButton.Visibility = Visibility.Hidden;
 
             List<Entry> _temp = new List<Entry>();
 
             for (int i = 0; i < entries.Count; i++)
             {
-                if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
+                //if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
                 {
                     _temp.Add(entries[i]);
                 }
             }
             currentList = _temp;
-            entryList.ItemsSource = _temp;
+            entriesDataGrid.ItemsSource = _temp;
             isFiltered = true;
         }
         void OpenEntryCreationWindow()
@@ -295,7 +295,7 @@ namespace ComToolWPF
                 timerValue--;
             this.Dispatcher.Invoke(new Action(() =>
             {
-                timerLabel.Content = timerValue.ToString();
+                //timerLabel.Content = timerValue.ToString();
                 //Console.WriteLine(is3C.ToString());
             }));
         }
@@ -324,12 +324,32 @@ namespace ComToolWPF
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
 
+        private bool IsMaximized = false;
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.ClickCount == 2)
+            {
+                if (IsMaximized)
+                {
+                    this.WindowState = WindowState.Normal;
+                    this.Width = 1080;
+                    this.Height = 720;
 
+                    IsMaximized = false;
+                }
+                else
+                {
+                    this.WindowState = WindowState.Maximized;
+
+                    IsMaximized = true;
+                }
+            }
         }
     }
 }

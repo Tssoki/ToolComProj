@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\repository\ToolComProj\ComToolWPF\obj\Debug\
+D:\dev\Repo\ToolComProj\ComToolWPF\obj\Debug\
 ComToolWPF
 none
 false
 DEBUG;TRACE
-D:\repository\ToolComProj\ComToolWPF\App.xaml
+D:\dev\Repo\ToolComProj\ComToolWPF\App.xaml
 3719225590
 
 11269698987
-20-751750900
+23-1703373670
 EditWindow.xaml;EntryCreationWindow.xaml;MainWindow.xaml;
 
 False
