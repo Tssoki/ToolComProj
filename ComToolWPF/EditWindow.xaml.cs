@@ -31,6 +31,7 @@ namespace ComToolWPF
             if (mainWindow.CurrentSelectedEntry == null) return;
 
             questionTextBlock.Text = mainWindow.CurrentSelectedEntry.Question;
+            answerTextBox.Text = mainWindow.CurrentSelectedEntry.Answer;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

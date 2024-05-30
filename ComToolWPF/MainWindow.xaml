@@ -11,6 +11,10 @@
         <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+
+        <Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     
     
@@ -41,11 +45,11 @@
                 </Grid.RowDefinitions>
 
                 <!--Page Title-->
-                <TextBlock Text="Title Test" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0"
+                <TextBlock Text="Questions / Réponses - Vaplas" Grid.Row="1" FontSize="32" FontWeight="SemiBold" Margin="0 20 0 0"
                            HorizontalAlignment="Left" Foreground="#121518"/>
 
                 <!--Add Button-->
-                <Button Style="{StaticResource addButton}">
+                <Button Style="{StaticResource addButton}" Click="AddEntryButton">
                     <StackPanel Orientation="Horizontal">
                         <Icon:PackIconMaterial Kind="Plus" VerticalAlignment="Center" Width="11" Height="11" Margin="0 1 8 0"/>
                         <TextBlock Text="Add New Entry"/>
@@ -57,17 +61,34 @@
 
                 <!--Tab Buttons-->
                 <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 10 0 0">
-                    <Button Content="No Answer" Style="{StaticResource tabButton}" BorderBrush="#784ff2"/>
-                    <Button Content="Answered" Style="{StaticResource tabButton}"/>
+                    <Button Content="No Answer" Style="{StaticResource tabButton}" Click="NoAnswerButtonClick" x:Name="noAnswerFilterButton"/>
+                    <Button Content="Answered" Style="{StaticResource tabButton}" Click="AnsweredButtonClick" x:Name="answeredFilterButton"/>
                 </StackPanel>
 
-                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="4" x:Name="entriesDataGrid" Margin="-10,76,10,-66">
+                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="4" x:Name="entriesDataGrid" Margin="-10,76,0,48" Grid.RowSpan="2" SelectionChanged="entriesDataGrid_SelectionChanged" SelectionUnit="FullRow">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Priority" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Priority}" ElementStyle="{StaticResource WrapText}"/>
                         <DataGridTextColumn Header="Pole" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Pole}" ElementStyle="{StaticResource WrapText}"/>
 
                         <DataGridTextColumn Header="Question" IsReadOnly="True" Width="*" Binding="{Binding Question}" ElementStyle="{StaticResource WrapText}"/>
                         <DataGridTextColumn Header="Answer" IsReadOnly="True" Width="*" Binding="{Binding Answer}" ElementStyle="{StaticResource WrapText}"/>
+
+                        <DataGridTemplateColumn Header="Edit" IsReadOnly="True" Width="auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource gridEditButton}" Click="editButton_Click">
+                                            <Icon:PackIconMaterial Kind="PencilOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>
+                                        <!--<Button Style="{StaticResource gridRemoveButton}" Margin="5 0 0 0" Click="RemoveEntry">
+                                            <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                        </Button>-->
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+
                     </DataGrid.Columns>
                 </DataGrid>
 

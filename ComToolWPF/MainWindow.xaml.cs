@@ -69,6 +69,7 @@ namespace ComToolWPF
             { "CCC", EPole.CCC },
             { "IA", EPole.IA },
             { "UI", EPole.UI },
+            { "TOOL", EPole.TOOL },
             { "GD", EPole.GD }
         };
 
@@ -89,6 +90,8 @@ namespace ComToolWPF
 
         public Entry CurrentSelectedEntry { get; private set; }
 
+        bool isAnsweredFilter = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -100,13 +103,13 @@ namespace ComToolWPF
         }
 
         #region Event
+        private void AddEntryButton(object sender, RoutedEventArgs e)
+        {
+            OpenEntryCreationWindow();
+        }
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             UpdateValidation();
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            OpenEntryCreationWindow();
         }
         private void ComboBoxFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -203,13 +206,14 @@ namespace ComToolWPF
         {
             entries.Clear();
             List<Entry> _entries = new List<Entry>();
-            string _range = "B3:E100";
+            string _range = "B3:E500";
 
             string[] _valueRange = new[] { _range };
             BatchGetValuesResponse _multipleResponse = manager.GetMultipleValues(mySpreadSheetID, _valueRange);
 
             var _response = _multipleResponse.ValueRanges.ElementAt(0);
 
+            if (_response.Values == null) return new List<Entry>();
             for (int i = 0; i < _response.Values.Count; i++)
             {
                 var _item = _response.Values[i];
@@ -234,11 +238,20 @@ namespace ComToolWPF
 
             for (int i = 0; i < entries.Count; i++)
             {
+                
                 //if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
+                if (isAnsweredFilter)
                 {
-                    _temp.Add(entries[i]);
+                    if (entries[i].Answer != "")
+                        _temp.Add(entries[i]);
+                }
+                else
+                {
+                    if (entries[i].Answer == "")
+                        _temp.Add(entries[i]);
                 }
             }
+
             currentList = _temp;
             entriesDataGrid.ItemsSource = _temp;
             isFiltered = true;
@@ -351,5 +364,31 @@ namespace ComToolWPF
                 }
             }
         }
+
+        private void NoAnswerButtonClick(object sender, RoutedEventArgs e)
+        {
+            isAnsweredFilter = false;
+            BrushConverter _converter = new BrushConverter();
+            noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
+
+            answeredFilterButton.BorderBrush = null;
+            FilterEntries();
+        }
+
+        private void AnsweredButtonClick(object sender, RoutedEventArgs e)
+        {
+            isAnsweredFilter = true;
+            BrushConverter _converter = new BrushConverter();
+            noAnswerFilterButton.BorderBrush = null;
+
+            answeredFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
+            FilterEntries();
+        }
+
+        //private void RemoveEntry(object sender, RoutedEventArgs e)
+        //{
+        //    manager.RemoveSingleValue(mySpreadSheetID, "B" + (3 + CurrentSelectedEntry.Index).ToString() + ":E" + (3 + CurrentSelectedEntry.Index).ToString());
+        //    UpdateTab();
+        //}
     }
 }

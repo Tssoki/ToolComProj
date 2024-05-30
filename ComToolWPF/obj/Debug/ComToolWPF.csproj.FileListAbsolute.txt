@@ -111,3 +111,10 @@ D:\dev\Repo\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.Properties.Resources.res
 D:\dev\Repo\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.csproj.GenerateResource.cache
 D:\dev\Repo\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.csproj.CoreCompileInputs.cache
 D:\dev\Repo\ToolComProj\ComToolWPF\obj\Debug\ComToolWPF.csproj.Up2Date
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Core.dll
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Material.dll
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Core.pdb
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Core.xml
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Material.pdb
+D:\repository\ToolComProj\ComToolWPF\bin\Debug\MahApps.Metro.IconPacks.Material.xml
+D:\repository\ToolComProj\ComToolWPF\obj\Debug\App.baml

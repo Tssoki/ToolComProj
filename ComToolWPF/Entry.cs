@@ -18,6 +18,7 @@ namespace ComToolWPF
         CCC,
         IA,
         UI,
+        TOOL,
         GD
     }
 
