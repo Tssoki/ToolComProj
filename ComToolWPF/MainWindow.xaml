@@ -26,10 +26,87 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            
+            
             <!--Menu Logo-->
             <Border Grid.Row="1" Background="#623ed0" CornerRadius="30 0 0 30">
                 <DockPanel>
+                    <!--Menu Titles-->
+                    <TextBlock Text="Je sais pas" Foreground="White" FontSize="22" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center" Margin="5 50 0 10"/>
+                    <TextBlock Text="aidez moi svp" Foreground="#d0bfff" FontSize="14" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center"/>
 
+                    <!--Menu Separator-->
+                    <Separator Margin="25" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+
+                    <!--Menu Buttons-->
+                    <!-- Background="#7b5cd6" Foreground="White" // select -->
+                    
+                    <StackPanel DockPanel.Dock="Top" Margin="0 80 0 0">
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonCCC" Click="menuButtonCCC_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="GamepadVariant" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="CCC"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonIA" Click="menuButtonIA_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Robot" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="IA"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonGPE" Click="menuButtonGPE_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="ShapeOutline" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="GPE"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonUI" Click="menuButtonUI_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="CursorPointer" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="UI"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonGRAPH" Click="menuButtonGRAPH_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Draw" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="GRAPH"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonANIM" Click="menuButtonANIM_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="AnimationPlayOutline" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="ANIM"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonTOOL" Click="menuButtonTOOL_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Tools" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="TOOL"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource menuButton}" x:Name="menuButtonGD" Click="menuButtonGD_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Lightbulb" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="GD"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Logout"/>
+                        </StackPanel>
+                    </Button>
                 </DockPanel>
             </Border>
 
@@ -65,7 +142,7 @@
                     <Button Content="Answered" Style="{StaticResource tabButton}" Click="AnsweredButtonClick" x:Name="answeredFilterButton"/>
                 </StackPanel>
 
-                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="4" x:Name="entriesDataGrid" Margin="-10,76,0,48" Grid.RowSpan="2" SelectionChanged="entriesDataGrid_SelectionChanged" SelectionUnit="FullRow">
+                <DataGrid Style="{DynamicResource DataGridStyle1}" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" RowStyle="{DynamicResource DataGridRowStyle1}" Grid.Row="4" x:Name="entriesDataGrid" Margin="-10,76,0,48" Grid.RowSpan="2" SelectionUnit="FullRow" SelectionChanged="entriesDataGrid_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Priority" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Priority}" ElementStyle="{StaticResource WrapText}"/>
                         <DataGridTextColumn Header="Pole" IsReadOnly="True" CanUserResize="False" Width="auto" Binding="{Binding Pole}" ElementStyle="{StaticResource WrapText}"/>

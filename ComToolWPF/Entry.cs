@@ -17,7 +17,10 @@ namespace ComToolWPF
     {
         CCC,
         IA,
+        GPE,
         UI,
+        GRAPH,
+        ANIM,
         TOOL,
         GD
     }

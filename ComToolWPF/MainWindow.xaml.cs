@@ -68,7 +68,10 @@ namespace ComToolWPF
         {
             { "CCC", EPole.CCC },
             { "IA", EPole.IA },
+            { "GPE", EPole.GPE },
             { "UI", EPole.UI },
+            { "GRAPH", EPole.GRAPH },
+            { "ANIM", EPole.ANIM },
             { "TOOL", EPole.TOOL },
             { "GD", EPole.GD }
         };
@@ -92,11 +95,14 @@ namespace ComToolWPF
 
         bool isAnsweredFilter = false;
 
+        List<EPole> activeFilter = new List<EPole>();
+
+
         public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
-            InitFilterComboBox();
+            Init();
             ResetSecondsTimer();
             SetListItemsSource();
             SetTimer();
@@ -111,53 +117,9 @@ namespace ComToolWPF
         {
             UpdateValidation();
         }
-        private void ComboBoxFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (comboBoxFilter.SelectedItem == null) return;
-            FilterEntries();
-        }
-        private void ClearButtonClick(object sender, RoutedEventArgs e)
-        {
-            entriesDataGrid.ItemsSource = entries;
-            //comboBoxFilter.SelectedItem = null;
-            isFiltered = false;
-        }
-        private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            List<Entry> _withAnswer = new List<Entry>();
-
-            if (entriesDataGrid.SelectedItem != null)
-                CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
-
-            int _index = entriesDataGrid.SelectedIndex;
-            Console.WriteLine(_index.ToString());
-
-            if (_index < 0) return;
-            if (!isFiltered)
-            {
-                if (entries[_index].Answer.Trim() == "")
-                {
-                    //editButton.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    //editButton.Visibility = Visibility.Hidden;
-                }
-            }
-            else
-            {
-                if (currentList[_index].Answer.Trim() == "")
-                {
-                    //editButton.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    //editButton.Visibility = Visibility.Hidden;
-                }
-            }
-        }
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("edit click");
             OpenEditWindow();
         }
 
@@ -170,14 +132,14 @@ namespace ComToolWPF
             googleClientSecret = "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";
 
             scopes = new[] { Google.Apis.Sheets.v4.SheetsService.Scope.Spreadsheets };
-                                         
+
             credential = GoogleAuthentification.Login(googleClientID, googleClientSecret, scopes);
             manager = new GoogleSheetsManager(credential);
 
             mySpreadSheetID = "199FDAfzCOxDYywfilvP5fopvGnp7_YrUv4VAlGVCXqA";
             spreadSheet = manager.GetSpreadSheet(mySpreadSheetID);
         }
-        private void InitFilterComboBox()
+        private void Init()
         {
             //comboBoxFilter.ItemsSource = System.Enum.GetValues(typeof(EPole));
             //comboBoxFilter.SelectedIndex = 0;
@@ -187,18 +149,21 @@ namespace ComToolWPF
         }
         #endregion Init
 
-        private void SetListItemsSource()
+        public void SetListItemsSource()
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                if (isFiltered)
+                if (activeFilter.Count > 0)
                 {
-                    ReadMultipleValue();
                     FilterEntries();
                     return;
                 }
 
-                entriesDataGrid.ItemsSource = ReadMultipleValue();
+                ReadMultipleValue();
+                BrushConverter _converter = new BrushConverter();
+                noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
+                entriesDataGrid.ItemsSource = AnswerFilter();
+
             }));
         }
 
@@ -220,7 +185,7 @@ namespace ComToolWPF
 
                 if (_item.Count >= 3)
                 {
-                    Entry _entry = new Entry(i ,stringToPriority[_item[0].ToString()], stringToPole[_item[1].ToString()], _item[2].ToString());
+                    Entry _entry = new Entry(i, stringToPriority[_item[0].ToString()], stringToPole[_item[1].ToString()], _item[2].ToString());
                     if (_item.Count >= 4)
                         _entry.Answer = _item[3].ToString();
                     _entries.Add(_entry);
@@ -230,16 +195,13 @@ namespace ComToolWPF
             entries = _entries;
             return _entries;
         }
-        private void FilterEntries()
-        {
-            //editButton.Visibility = Visibility.Hidden;
 
+        private List<Entry> AnswerFilter()
+        {
             List<Entry> _temp = new List<Entry>();
 
             for (int i = 0; i < entries.Count; i++)
             {
-                
-                //if (stringToPole[comboBoxFilter.SelectedItem.ToString()] == entries[i].Pole)
                 if (isAnsweredFilter)
                 {
                     if (entries[i].Answer != "")
@@ -253,8 +215,28 @@ namespace ComToolWPF
             }
 
             currentList = _temp;
+            return _temp;
+        }
+
+        private List<Entry> FilterEntries()
+        {
+            List<Entry> _temp = new List<Entry>();
+            List<Entry> _list = AnswerFilter();
+
+            for (int i = 0; i < _list.Count; i++)
+            {
+                for (int j = 0; j < activeFilter.Count; j++)
+                {
+                    if (activeFilter[j] == _list[i].Pole)
+                    {
+                        _temp.Add(_list[i]);
+                    }
+                }
+            }
+
             entriesDataGrid.ItemsSource = _temp;
-            isFiltered = true;
+            currentList = _temp;
+            return _temp;
         }
         void OpenEntryCreationWindow()
         {
@@ -285,7 +267,7 @@ namespace ComToolWPF
             MessageBoxResult _result;
 
             _result = MessageBox.Show(_message, _caption, _button, _icon, MessageBoxResult.No);
-            
+
             switch (_result)
             {
                 case MessageBoxResult.Yes:
@@ -342,7 +324,6 @@ namespace ComToolWPF
                 this.DragMove();
             }
         }
-
         private bool IsMaximized = false;
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -364,7 +345,6 @@ namespace ComToolWPF
                 }
             }
         }
-
         private void NoAnswerButtonClick(object sender, RoutedEventArgs e)
         {
             isAnsweredFilter = false;
@@ -372,23 +352,165 @@ namespace ComToolWPF
             noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
 
             answeredFilterButton.BorderBrush = null;
-            FilterEntries();
+            //FilterEntries();
+            SetListItemsSource();
         }
-
         private void AnsweredButtonClick(object sender, RoutedEventArgs e)
         {
             isAnsweredFilter = true;
             BrushConverter _converter = new BrushConverter();
-            noAnswerFilterButton.BorderBrush = null;
+            noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#ffffff") as Brush;
 
             answeredFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
-            FilterEntries();
+            //FilterEntries();
+            SetListItemsSource();
         }
 
-        //private void RemoveEntry(object sender, RoutedEventArgs e)
-        //{
-        //    manager.RemoveSingleValue(mySpreadSheetID, "B" + (3 + CurrentSelectedEntry.Index).ToString() + ":E" + (3 + CurrentSelectedEntry.Index).ToString());
-        //    UpdateTab();
-        //}
+        #region Menu Button Event
+        private void menuButtonCCC_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.CCC))
+            {
+                activeFilter.Remove(EPole.CCC);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.CCC);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonIA_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.IA))
+            {
+                activeFilter.Remove(EPole.IA);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.IA);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonGPE_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.GPE))
+            {
+                activeFilter.Remove(EPole.GPE);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.GPE);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonUI_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.UI))
+            {
+                activeFilter.Remove(EPole.UI);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.UI);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonGRAPH_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.GRAPH))
+            {
+                activeFilter.Remove(EPole.GRAPH);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.GRAPH);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonANIM_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.ANIM))
+            {
+                activeFilter.Remove(EPole.ANIM);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.ANIM);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonTOOL_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.TOOL))
+            {
+                activeFilter.Remove(EPole.TOOL);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.TOOL);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        private void menuButtonGD_Click(object sender, RoutedEventArgs e)
+        {
+            BrushConverter _converter = new BrushConverter();
+            var _sender = sender as Button;
+            if (activeFilter.Contains(EPole.GD))
+            {
+                activeFilter.Remove(EPole.GD);
+                _sender.FontWeight = FontWeights.Regular;
+                _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
+                SetListItemsSource();
+                return;
+            }
+            activeFilter.Add(EPole.GD);
+            _sender.FontWeight = FontWeights.Bold;
+            _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
+            SetListItemsSource();
+        }
+        #endregion Menu Button Event
+
+        private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<Entry> _withAnswer = new List<Entry>();
+
+            if (entriesDataGrid.SelectedItem != null)
+                CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
+        }
     }
 }
