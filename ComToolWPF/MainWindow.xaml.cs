@@ -78,16 +78,15 @@ namespace ComToolWPF
 
         private Dictionary<string, EPriority> stringToPriority = new Dictionary<string, EPriority>()
         {
-            { "URGENT", EPriority.URGENT },
-            { "TRANQUILLE", EPriority.TRANQUILLE },
-            { "BLC", EPriority.BLC }
+            { "HIGH", EPriority.HIGH },
+            { "MEDIUM", EPriority.MEDIUM },
+            { "LOW", EPriority.LOW }
         };
 
         public int ValueCount { get; set; }
 
         public List<Entry> entries = new List<Entry>();
 
-        bool isFiltered = false;
 
         List<Entry> currentList = new List<Entry>();
 
@@ -97,15 +96,19 @@ namespace ComToolWPF
 
         List<EPole> activeFilter = new List<EPole>();
 
+        public List<Window> WindowList { get; set; } = new List<Window>(); 
+
 
         public MainWindow()
         {
             InitializeComponent();
             InitGoogleAuth();
-            Init();
             ResetSecondsTimer();
-            SetListItemsSource();
+            ReadMultipleValue();
+            FilterEntries();
             SetTimer();
+            BrushConverter _converter = new BrushConverter();
+            noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
         }
 
         #region Event
@@ -139,36 +142,20 @@ namespace ComToolWPF
             mySpreadSheetID = "199FDAfzCOxDYywfilvP5fopvGnp7_YrUv4VAlGVCXqA";
             spreadSheet = manager.GetSpreadSheet(mySpreadSheetID);
         }
-        private void Init()
-        {
-            //comboBoxFilter.ItemsSource = System.Enum.GetValues(typeof(EPole));
-            //comboBoxFilter.SelectedIndex = 0;
-            //comboBoxFilter.SelectedItem = null;
-
-            //comboBoxFilter.SelectionChanged += ComboBoxFilter_SelectionChanged;
-        }
         #endregion Init
 
         public void SetListItemsSource()
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                if (activeFilter.Count > 0)
-                {
-                    FilterEntries();
-                    return;
-                }
-
-                ReadMultipleValue();
-                BrushConverter _converter = new BrushConverter();
-                noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
-                entriesDataGrid.ItemsSource = AnswerFilter();
-
+                FilterEntries();
             }));
         }
 
-        private List<Entry> ReadMultipleValue()
+        public List<Entry> ReadMultipleValue()
         {
+            Console.WriteLine("start of  Read");
+
             entries.Clear();
             List<Entry> _entries = new List<Entry>();
             string _range = "B3:E500";
@@ -193,6 +180,7 @@ namespace ComToolWPF
                 ValueCount = _entries.Count;
             }
             entries = _entries;
+            Console.WriteLine("end of  Read");
             return _entries;
         }
 
@@ -214,7 +202,10 @@ namespace ComToolWPF
                 }
             }
 
+            entriesDataGrid.ItemsSource = _temp;
             currentList = _temp;
+            Console.WriteLine("end of  answer filter");
+
             return _temp;
         }
 
@@ -223,20 +214,28 @@ namespace ComToolWPF
             List<Entry> _temp = new List<Entry>();
             List<Entry> _list = AnswerFilter();
 
-            for (int i = 0; i < _list.Count; i++)
+            Console.WriteLine("start of  filter entries");
+
+            if (activeFilter.Count > 0)
             {
-                for (int j = 0; j < activeFilter.Count; j++)
+                for (int i = 0; i < _list.Count; i++)
                 {
-                    if (activeFilter[j] == _list[i].Pole)
+                    for (int j = 0; j < activeFilter.Count; j++)
                     {
-                        _temp.Add(_list[i]);
+                        if (activeFilter[j] == _list[i].Pole)
+                        {
+                            _temp.Add(_list[i]);
+                        }
                     }
                 }
-            }
 
-            entriesDataGrid.ItemsSource = _temp;
-            currentList = _temp;
-            return _temp;
+                entriesDataGrid.ItemsSource = _temp;
+                currentList = _temp;
+                Console.WriteLine("end of  filter entries If filter");
+                return _temp;
+            }
+            Console.WriteLine("end of  filter entries");
+            return _list;
         }
         void OpenEntryCreationWindow()
         {
@@ -254,7 +253,8 @@ namespace ComToolWPF
         #region Timer
         public void UpdateTab()
         {
-            SetListItemsSource();
+            ReadMultipleValue();
+            FilterEntries();
             ResetUpdateTimer();
             ResetSecondsTimer();
         }
@@ -281,7 +281,7 @@ namespace ComToolWPF
         private void UpdateTabValue(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("SHEET Updated");
-            SetListItemsSource();
+            UpdateTab();
             ResetSecondsTimer();
         }
         private void UpdateSeconds(object sender, ElapsedEventArgs e)
@@ -352,8 +352,7 @@ namespace ComToolWPF
             noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
 
             answeredFilterButton.BorderBrush = null;
-            //FilterEntries();
-            SetListItemsSource();
+            FilterEntries();
         }
         private void AnsweredButtonClick(object sender, RoutedEventArgs e)
         {
@@ -362,8 +361,7 @@ namespace ComToolWPF
             noAnswerFilterButton.BorderBrush = _converter.ConvertFromString("#ffffff") as Brush;
 
             answeredFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
-            //FilterEntries();
-            SetListItemsSource();
+            FilterEntries();
         }
 
         #region Menu Button Event
@@ -376,7 +374,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.CCC);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.CCC);
@@ -393,7 +391,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.IA);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.IA);
@@ -410,7 +408,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.GPE);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.GPE);
@@ -427,7 +425,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.UI);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.UI);
@@ -444,7 +442,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.GRAPH);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.GRAPH);
@@ -461,7 +459,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.ANIM);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.ANIM);
@@ -478,7 +476,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.TOOL);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.TOOL);
@@ -495,7 +493,7 @@ namespace ComToolWPF
                 activeFilter.Remove(EPole.GD);
                 _sender.FontWeight = FontWeights.Regular;
                 _sender.Foreground = _converter.ConvertFromString("#d0c0ff") as Brush;
-                SetListItemsSource();
+                FilterEntries();
                 return;
             }
             activeFilter.Add(EPole.GD);
@@ -511,6 +509,20 @@ namespace ComToolWPF
 
             if (entriesDataGrid.SelectedItem != null)
                 CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowList.Count <= 0)
+            {
+                Close();
+                return;
+            }
+            foreach (Window _window in WindowList)
+            {
+                _window.Close();
+            }
+            Close();
         }
     }
 }

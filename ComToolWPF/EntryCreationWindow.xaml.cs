@@ -29,6 +29,8 @@ namespace ComToolWPF
             InitComboBox();
             mainWindow = (MainWindow)Application.Current.MainWindow;
             manager = mainWindow.manager;
+            mainWindow.WindowList.Add(this);
+
         }
 
         private void InitComboBox()
@@ -40,13 +42,27 @@ namespace ComToolWPF
             comboBoxPole.SelectedIndex = 0;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "B" + (mainWindow.ValueCount + 3).ToString(), comboBoxPriority.Text);
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "C" + (mainWindow.ValueCount + 3).ToString(), comboBoxPole.Text);
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "D" + (mainWindow.ValueCount + 3).ToString(), textBoxQuestion.Text);
+            mainWindow.ReadMultipleValue();
             mainWindow.SetListItemsSource();
             Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

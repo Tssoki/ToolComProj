@@ -27,6 +27,7 @@ namespace ComToolWPF
             InitializeComponent();
             mainWindow = (MainWindow)Application.Current.MainWindow;
             manager = mainWindow.manager;
+            mainWindow.WindowList.Add(this);
 
             if (mainWindow.CurrentSelectedEntry == null) return;
 
@@ -34,11 +35,23 @@ namespace ComToolWPF
             answerTextBox.Text = mainWindow.CurrentSelectedEntry.Answer;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "E" + (mainWindow.CurrentSelectedEntry.Index + 3).ToString(), answerTextBox.Text);
             mainWindow.UpdateTab();
             Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

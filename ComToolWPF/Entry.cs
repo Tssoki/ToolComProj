@@ -8,9 +8,9 @@ namespace ComToolWPF
 {
     public enum EPriority
     {
-        URGENT,
-        TRANQUILLE,
-        BLC
+        HIGH,
+        MEDIUM,
+        LOW
     }
 
     public enum EPole
