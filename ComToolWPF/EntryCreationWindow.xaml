@@ -16,6 +16,7 @@
             <ComboBox HorizontalAlignment="Left" Margin="30,22,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPriority" Style="{StaticResource ComboBoxFlatStyle}"/>
             <ComboBox HorizontalAlignment="Left" Margin="30,78,0,0" VerticalAlignment="Top" Width="120" x:Name="comboBoxPole" Style="{StaticResource ComboBoxFlatStyle}"/>
             <TextBox HorizontalAlignment="Center" Margin="0,159,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="472" Height="129" x:Name="textBoxQuestion"/>
+            <Label x:Name="missingTextInputError" Content="Missing text input !" Foreground="Red" FontSize="12" Margin="328,316,78,98" Visibility="Hidden"/>
             <Button Content="Create" HorizontalAlignment="Left" Margin="300,347,0,0" VerticalAlignment="Top" Height="56" Width="170" Click="CreateButton_Click" Style="{StaticResource addButton}"/>
             <Button Content="Cancel" HorizontalAlignment="Left" Margin="50,347,0,0" VerticalAlignment="Top" Height="56" Width="170" Click="CancelButton_Click" Style="{StaticResource addButton}" Background="Gray"/>
 

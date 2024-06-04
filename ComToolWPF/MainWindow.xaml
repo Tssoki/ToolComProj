@@ -40,7 +40,14 @@
                                    DockPanel.Dock="Top" TextAlignment="Center"/>
 
                     <!--Menu Separator-->
-                    <Separator Margin="25" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+                    <Separator Margin="10" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+                    
+                   <!-- Refresh TextBlock-->
+                    <Label Content="Update automatically in :" FontSize="12" Width="156" Height="25" DockPanel.Dock="Top" Foreground="#d0bfff"/>
+                    <Label Content="49" FontSize="14" x:Name="refreshTextBlock" Width="34" Height="29" DockPanel.Dock="Top" Foreground="#d0bfff" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+
+                    <!--Menu Separator-->
+                    <Separator Margin="10" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
 
                     <!--Menu Buttons-->
                     <!-- Background="#7b5cd6" Foreground="White" // select -->

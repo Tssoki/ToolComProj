@@ -1,32 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using Newtonsoft.Json.Linq;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using System.Threading;
 using System.Timers;
-using System.Runtime.CompilerServices;
-using ExtensionMethods;
-using System.IO.IsolatedStorage;
 
 namespace ExtensionMethods
 {
@@ -49,18 +30,16 @@ namespace ComToolWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        string[] scopes;
         string googleClientID;
         string googleClientSecret;
-        string[] scopes;
-        public string mySpreadSheetID { get; private set; }
-
         UserCredential credential;
-        public GoogleSheetsManager manager { get; private set; }
+        public string mySpreadSheetID { get; private set; }
         Spreadsheet spreadSheet;
+        public GoogleSheetsManager manager { get; private set; }
 
         System.Timers.Timer updateTimer;
         System.Timers.Timer secondsTimer;
-
         private float timerUpdateValue = 60;
         private float timerValue = 0.0f;
 
@@ -75,7 +54,6 @@ namespace ComToolWPF
             { "TOOL", EPole.TOOL },
             { "GD", EPole.GD }
         };
-
         private Dictionary<string, EPriority> stringToPriority = new Dictionary<string, EPriority>()
         {
             { "HIGH", EPriority.HIGH },
@@ -83,20 +61,12 @@ namespace ComToolWPF
             { "LOW", EPriority.LOW }
         };
 
-        public int ValueCount { get; set; }
-
-        public List<Entry> entries = new List<Entry>();
-
-
-        List<Entry> currentList = new List<Entry>();
-
         public Entry CurrentSelectedEntry { get; private set; }
-
-        bool isAnsweredFilter = false;
-
+        public List<Entry> entries = new List<Entry>();
+        public List<Window> WindowList { get; set; } = new List<Window>();
         List<EPole> activeFilter = new List<EPole>();
-
-        public List<Window> WindowList { get; set; } = new List<Window>(); 
+        public int ValueCount { get; set; }
+        bool isAnsweredFilter = false;
 
 
         public MainWindow()
@@ -115,10 +85,6 @@ namespace ComToolWPF
         private void AddEntryButton(object sender, RoutedEventArgs e)
         {
             OpenEntryCreationWindow();
-        }
-        private void UpdateButtonClick(object sender, RoutedEventArgs e)
-        {
-            UpdateValidation();
         }
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
@@ -206,7 +172,6 @@ namespace ComToolWPF
             this.Dispatcher.Invoke((Action)(() =>
             {
                 entriesDataGrid.ItemsSource = _temp;
-                currentList = _temp;
             }));
 
             return _temp;
@@ -235,7 +200,6 @@ namespace ComToolWPF
                 this.Dispatcher.Invoke((Action)(() =>
                 {
                     entriesDataGrid.ItemsSource = _temp;
-                    currentList = _temp;
                 }));
                 return _temp;
             }
@@ -263,26 +227,6 @@ namespace ComToolWPF
             ResetUpdateTimer();
             ResetSecondsTimer();
         }
-        private void UpdateValidation()
-        {
-            string _message = "Pense à la limite de requête,\nC'est pour la planète !\nTu veux vraiment faire ça ?";
-            string _caption = "Abuse pas frère !";
-            MessageBoxButton _button = MessageBoxButton.YesNo;
-            MessageBoxImage _icon = MessageBoxImage.Question;
-            MessageBoxResult _result;
-
-            _result = MessageBox.Show(_message, _caption, _button, _icon, MessageBoxResult.No);
-
-            switch (_result)
-            {
-                case MessageBoxResult.Yes:
-                    //is3C = false;
-                    UpdateTab();
-                    break;
-                case MessageBoxResult.No:
-                    break;
-            }
-        }
         private void UpdateTabValue(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("SHEET Updated");
@@ -295,8 +239,7 @@ namespace ComToolWPF
                 timerValue--;
             this.Dispatcher.Invoke(new Action(() =>
             {
-                //timerLabel.Content = timerValue.ToString();
-                //Console.WriteLine(is3C.ToString());
+                refreshTextBlock.Content = timerValue.ToString();
             }));
         }
         private void SetTimer()
@@ -510,8 +453,6 @@ namespace ComToolWPF
 
         private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<Entry> _withAnswer = new List<Entry>();
-
             if (entriesDataGrid.SelectedItem != null)
                 CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
         }

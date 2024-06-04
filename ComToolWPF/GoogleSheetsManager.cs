@@ -15,7 +15,6 @@ namespace ComToolWPF
         {
             credential = _credential;
         }
-
         public Spreadsheet CreateNew(string _documentName)
         {
             if (string.IsNullOrEmpty(_documentName))
@@ -45,7 +44,6 @@ namespace ComToolWPF
                 return _documentCreationRequest.Execute();
             }
         }
-
         public Spreadsheet GetSpreadSheet(string _googleSpreadsheetIdentifier)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
@@ -54,7 +52,6 @@ namespace ComToolWPF
             using (var _sheetService = new SheetsService(new BaseClientService.Initializer() { HttpClientInitializer = credential }))
                 return _sheetService.Spreadsheets.Get(_googleSpreadsheetIdentifier).Execute();
         }
-
         public ValueRange GetSingleValue(string _googleSpreadsheetIdentifier, string _valueRange)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
@@ -68,7 +65,6 @@ namespace ComToolWPF
                 return _getValueRequest.Execute();
             }
         }
-
         public void RemoveSingleValue(string _googleSpreadsheetIdentifier, string _valueRange)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
@@ -82,7 +78,6 @@ namespace ComToolWPF
                 _removeValueRequest.Execute();
             }
         }
-
         public BatchGetValuesResponse GetMultipleValues(string _googleSpreadsheetIdentifier, string[] _ranges)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
@@ -98,7 +93,6 @@ namespace ComToolWPF
                 return _getValueRequest.Execute();
             }
         }
-
         public void ClearMultipleValues(string _googleSpreadsheetIdentifier, string[] _ranges)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
@@ -112,7 +106,6 @@ namespace ComToolWPF
                 _getValueRequest.Execute();
             }
         }
-
         public void UpdateSingleCell(string _googleSpreadsheetIdentifier, string _range, string _cellText)
         {
             if (string.IsNullOrEmpty(_googleSpreadsheetIdentifier))
