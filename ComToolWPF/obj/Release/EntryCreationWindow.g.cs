@@ -84,7 +84,7 @@ namespace ComToolWPF {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/ComToolWPF;component/entrycreationwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/FCT;component/entrycreationwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\EntryCreationWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

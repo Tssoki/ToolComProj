@@ -41,8 +41,8 @@
 
                     <!--Menu Separator-->
                     <Separator Margin="10" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
-                    
-                   <!-- Refresh TextBlock-->
+
+                    <!-- Refresh TextBlock-->
                     <Label Content="Update automatically in :" FontSize="12" Width="156" Height="25" DockPanel.Dock="Top" Foreground="#d0bfff"/>
                     <Label Content="49" FontSize="14" x:Name="refreshTextBlock" Width="34" Height="29" DockPanel.Dock="Top" Foreground="#d0bfff" FontWeight="Bold" HorizontalContentAlignment="Center"/>
 
@@ -51,7 +51,7 @@
 
                     <!--Menu Buttons-->
                     <!-- Background="#7b5cd6" Foreground="White" // select -->
-                    
+
                     <StackPanel DockPanel.Dock="Top" Margin="0 80 0 0">
                         <Button Style="{StaticResource menuButton}" x:Name="menuButtonCCC" Click="menuButtonCCC_Click">
                             <StackPanel Orientation="Horizontal">
@@ -110,7 +110,10 @@
                         </Button>
                     </StackPanel>
 
-                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20" Click="ExitButton_Click">
+                    <!--Menu Separator-->
+                    <Separator Margin="15" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+
+                    <Button Style="{StaticResource exitButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20" Click="ExitButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Exit"/>
