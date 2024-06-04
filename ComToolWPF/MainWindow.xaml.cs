@@ -186,25 +186,34 @@ namespace ComToolWPF
 
         private List<Entry> AnswerFilter()
         {
+            Console.WriteLine("start of  answer");
             List<Entry> _temp = new List<Entry>();
 
             for (int i = 0; i < entries.Count; i++)
             {
+                Console.WriteLine("for answer");
                 if (isAnsweredFilter)
                 {
+                    Console.WriteLine("is answer filtered");
                     if (entries[i].Answer != "")
                         _temp.Add(entries[i]);
                 }
                 else
                 {
+                    Console.WriteLine("is answer not filtered");
                     if (entries[i].Answer == "")
                         _temp.Add(entries[i]);
                 }
             }
 
-            entriesDataGrid.ItemsSource = _temp;
-            currentList = _temp;
-            Console.WriteLine("end of  answer filter");
+            Console.WriteLine("end of  answer filter 1");
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                entriesDataGrid.ItemsSource = _temp;
+            Console.WriteLine("end of  answer filter 2");
+                currentList = _temp;
+            }));
+            Console.WriteLine("end of  answer filter 3");
 
             return _temp;
         }
