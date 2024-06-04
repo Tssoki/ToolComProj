@@ -32,9 +32,11 @@
             <Border Grid.Row="1" Background="#623ed0" CornerRadius="30 0 0 30">
                 <DockPanel>
                     <!--Menu Titles-->
-                    <TextBlock Text="TOOL NAME" Foreground="White" FontSize="22" FontWeight="SemiBold"
+                    <TextBlock Text="FCT" Foreground="White" FontSize="22" FontWeight="SemiBold"
                                    DockPanel.Dock="Top" TextAlignment="Center" Margin="5 50 0 10"/>
-                    <TextBlock Text="V1.0" Foreground="#d0bfff" FontSize="14" FontWeight="SemiBold"
+                    <TextBlock Text="Fast Communication Tool" Foreground="#d0bfff" FontSize="10" FontWeight="SemiBold"
+                                   DockPanel.Dock="Top" TextAlignment="Center"/>
+                    <TextBlock Text="v0.1" Foreground="#d0bfff" FontSize="8" FontWeight="SemiBold"
                                    DockPanel.Dock="Top" TextAlignment="Center"/>
 
                     <!--Menu Separator-->

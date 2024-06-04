@@ -191,29 +191,23 @@ namespace ComToolWPF
 
             for (int i = 0; i < entries.Count; i++)
             {
-                Console.WriteLine("for answer");
                 if (isAnsweredFilter)
                 {
-                    Console.WriteLine("is answer filtered");
                     if (entries[i].Answer != "")
                         _temp.Add(entries[i]);
                 }
                 else
                 {
-                    Console.WriteLine("is answer not filtered");
                     if (entries[i].Answer == "")
                         _temp.Add(entries[i]);
                 }
             }
 
-            Console.WriteLine("end of  answer filter 1");
             this.Dispatcher.Invoke((Action)(() =>
             {
                 entriesDataGrid.ItemsSource = _temp;
-            Console.WriteLine("end of  answer filter 2");
                 currentList = _temp;
             }));
-            Console.WriteLine("end of  answer filter 3");
 
             return _temp;
         }
@@ -238,16 +232,18 @@ namespace ComToolWPF
                     }
                 }
 
-                entriesDataGrid.ItemsSource = _temp;
-                currentList = _temp;
-                Console.WriteLine("end of  filter entries If filter");
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    entriesDataGrid.ItemsSource = _temp;
+                    currentList = _temp;
+                }));
                 return _temp;
             }
-            Console.WriteLine("end of  filter entries");
             return _list;
         }
         void OpenEntryCreationWindow()
         {
+            ReadMultipleValue();
             EntryCreationWindow _window = new EntryCreationWindow();
             _window.Show();
         }
