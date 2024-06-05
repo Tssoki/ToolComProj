@@ -36,7 +36,7 @@
                                    DockPanel.Dock="Top" TextAlignment="Center" Margin="5 50 0 10"/>
                     <TextBlock Text="Fast Communication Tool" Foreground="#d0bfff" FontSize="10" FontWeight="SemiBold"
                                    DockPanel.Dock="Top" TextAlignment="Center"/>
-                    <TextBlock Text="v0.1" Foreground="#d0bfff" FontSize="8" FontWeight="SemiBold"
+                    <TextBlock x:Name="versionTextBlock" Foreground="#d0bfff" FontSize="8" FontWeight="SemiBold"
                                    DockPanel.Dock="Top" TextAlignment="Center"/>
 
                     <!--Menu Separator-->

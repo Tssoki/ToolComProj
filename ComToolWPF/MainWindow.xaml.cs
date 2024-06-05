@@ -68,10 +68,12 @@ namespace ComToolWPF
         public int ValueCount { get; set; }
         bool isAnsweredFilter = false;
 
+        public string AppVersion { get; set; } = "1.01";
 
         public MainWindow()
         {
             InitializeComponent();
+            InitVariable();
             InitGoogleAuth();
             ResetSecondsTimer();
             ReadMultipleValue();
@@ -95,6 +97,10 @@ namespace ComToolWPF
         #endregion Event
 
         #region Init
+        private void InitVariable()
+        {
+            versionTextBlock.Text = "v" + AppVersion;
+        }
         private void InitGoogleAuth()
         {
             googleClientID = "783201556069-qvrac98c53djpeede70t42pvopjqvs3f.apps.googleusercontent.com";
@@ -207,7 +213,7 @@ namespace ComToolWPF
         }
         void OpenEntryCreationWindow()
         {
-            ReadMultipleValue();
+            //ReadMultipleValue();
             EntryCreationWindow _window = new EntryCreationWindow();
             _window.Show();
         }

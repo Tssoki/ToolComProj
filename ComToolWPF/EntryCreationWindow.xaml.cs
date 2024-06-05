@@ -50,6 +50,7 @@ namespace ComToolWPF
                 return;
             }
 
+            mainWindow.ReadMultipleValue();
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "B" + (mainWindow.ValueCount + 3).ToString(), comboBoxPriority.Text);
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "C" + (mainWindow.ValueCount + 3).ToString(), comboBoxPole.Text);
             manager.UpdateSingleCell(mainWindow.mySpreadSheetID, "D" + (mainWindow.ValueCount + 3).ToString(), textBoxQuestion.Text);
