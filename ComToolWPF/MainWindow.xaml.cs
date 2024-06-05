@@ -43,6 +43,7 @@ namespace ComToolWPF
         private float timerUpdateValue = 60;
         private float timerValue = 0.0f;
 
+        public string AppVersion { get; set; } = "1.01";
         private Dictionary<string, EPole> stringToPole = new Dictionary<string, EPole>()
         {
             { "CCC", EPole.CCC },
@@ -67,8 +68,8 @@ namespace ComToolWPF
         List<EPole> activeFilter = new List<EPole>();
         public int ValueCount { get; set; }
         bool isAnsweredFilter = false;
+        private bool IsMaximized = false;
 
-        public string AppVersion { get; set; } = "1.01";
 
         public MainWindow()
         {
@@ -271,6 +272,8 @@ namespace ComToolWPF
         }
         #endregion Timer
 
+
+        #region Button Event
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -278,7 +281,6 @@ namespace ComToolWPF
                 this.DragMove();
             }
         }
-        private bool IsMaximized = false;
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -317,8 +319,6 @@ namespace ComToolWPF
             answeredFilterButton.BorderBrush = _converter.ConvertFromString("#784ff2") as Brush;
             FilterEntries();
         }
-
-        #region Menu Button Event
         private void menuButtonCCC_Click(object sender, RoutedEventArgs e)
         {
             BrushConverter _converter = new BrushConverter();
@@ -455,14 +455,6 @@ namespace ComToolWPF
             _sender.Foreground = _converter.ConvertFromString("#ffffff") as Brush;
             SetListItemsSource();
         }
-        #endregion Menu Button Event
-
-        private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (entriesDataGrid.SelectedItem != null)
-                CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
-        }
-
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             if (WindowList.Count <= 0)
@@ -475,6 +467,13 @@ namespace ComToolWPF
                 _window.Close();
             }
             Close();
+        }
+        #endregion Button Event
+
+        private void entriesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (entriesDataGrid.SelectedItem != null)
+                CurrentSelectedEntry = entriesDataGrid.SelectedItem as Entry;
         }
     }
 }
